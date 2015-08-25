@@ -4,7 +4,8 @@ Backbone = require 'backbone'
 mediator = require '../../../lib/mediator.coffee'
 
 module.exports = class DropdownView extends Backbone.View
-  interval: 200
+  openInterval: 100
+  closeInterval: 200
 
   events:
     'mouseover' : 'onMouseOver'
@@ -21,13 +22,16 @@ module.exports = class DropdownView extends Backbone.View
     @$el.removeClass 'dropdown--is_active' unless @$el.is(':hover')
 
   onMouseOver: =>
-    $('.dropdown--is_active').removeClass 'dropdown--is_active'
-    @openDropdown()
-    @$('input').focus()
+    @openTimeoutId = setTimeout (=>
+        $('.dropdown--is_active').removeClass 'dropdown--is_active'
+        @openDropdown()
+        @$('input').focus()
+      ), @openInterval
     clearTimeout @timeoutId
 
   onMouseOut: (e) =>
-    @timeoutId = setTimeout @closeDropdown, @interval
+    @closeTimeoutId = setTimeout @closeDropdown, @closeInterval
+    clearTimeout @openTimeoutId
 
   onBodyClick: (e) =>
     if !e or
