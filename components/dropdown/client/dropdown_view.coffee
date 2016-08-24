@@ -43,7 +43,7 @@ module.exports = class DropdownView extends Backbone.View
     clearTimeout @timeoutId
 
   onMouseOut: (e) =>
-    console.log 'onMouseOut', @interval
+    console.log 'on mouseout', @interval
     @timeoutId = setTimeout @closeDropdown, @interval
 
   onBodyClick: (e) =>
