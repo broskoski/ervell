@@ -238,14 +238,31 @@ privacy-color('.search__results__result--privacy-', color)
   margin -1px 0 0 6px
 
 .dropdown--menu
+  position relative
   cursor pointer
   padding 0 unit 0 0
+
+  &.dropdown--is_active
+    &:before
+      content ''
+      display block
+      position absolute
+      width topbar_h
+      height topbar_h / 2
+      left -(topbar_h / 2)
+    &:after
+      content ''
+      display block
+      position absolute
+      width topbar_h
+      height topbar_h / 2
+      right topbar_h / 2
 
 .dropdown--menu--user
   padding 0 unit 0 0
 
 .dropdown
-  position absolute
+  position fixed
   display none
   top topbar_h
   right 0

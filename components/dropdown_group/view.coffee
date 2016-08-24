@@ -26,6 +26,20 @@ module.exports = class DropdownGroupView extends Backbone.View
     else
       @setupMenuAim()
 
+  setupSubViews: ->
+    if mediator.shared.current_user.id
+      new UserMenuView
+        el: $('.dropdown--menu--user')
+      new NewChannelView
+        el: $('.dropdown--menu--new-channel')
+      new NotificationsView
+        el: $('.dropdown--menu--notifications')
+
+    if mediator.shared.current_user.get('is_pro')
+      new ViewMenuView
+        el: $('.dropdown--menu--view')
+        model: mediator.shared.state
+
   setupMenuAim: ->
     @$el.menuAim
       activate: (el) -> $(el).addClass 'dropdown--is_active'

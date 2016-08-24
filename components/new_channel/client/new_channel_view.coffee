@@ -1,5 +1,6 @@
 _ = require 'underscore'
 sd = require("sharify").data
+Backbone = require 'backbone'
 Channel = require '../../../models/channel.coffee'
 mediator = require '../../../lib/mediator.coffee'
 analytics = require '../../../lib/analytics.coffee'
@@ -8,7 +9,7 @@ ChannelVisibilityView = require '../../channel_visibility/client/channel_visibil
 
 template = -> require('../templates/new_channel.jade') arguments...
 
-module.exports = class NewChannelView extends DropdownView
+module.exports = class NewChannelView extends Backbone.View
 
   events:
     'click .new-channel__done-button' : 'createChannel'
@@ -26,10 +27,6 @@ module.exports = class NewChannelView extends DropdownView
     @listenTo @model, 'change:status', @toggleVisibility
 
     @render()
-
-    @desktopEvents = _.extend @desktopEvents, @events
-    @mobileEvents = _.extend @mobileEvents, @events
-    super
 
   onKeyUp: (e)->
     @model.set 'title', @$input.val()?.trim()
