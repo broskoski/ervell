@@ -29,6 +29,11 @@ export default class SearchInput extends Component {
     onQueryChange: PropTypes.func,
     onDebouncedQueryChange: PropTypes.func,
     debounceWait: PropTypes.number,
+    iconStates: PropTypes.shape({
+      resting: PropTypes.string,
+      active: PropTypes.string,
+      hover: PropTypes.string,
+    }),
   }
 
   static defaultProps = {
@@ -36,6 +41,12 @@ export default class SearchInput extends Component {
     onQueryChange: () => {},
     onDebouncedQueryChange: () => {},
     debounceWait: 250,
+    iconStates: {
+      resting: 'MagnifyingGlass',
+      hover: 'MagnifyingGlass',
+      focus: 'X',
+      active: 'X',
+    },
   }
 
   constructor(props) {
@@ -63,6 +74,32 @@ export default class SearchInput extends Component {
     this.input.focus();
   }
 
+  handleMouseOver = () => {
+    const { mode } = this.state;
+    if (mode === 'active' || mode === 'focus') { return; }
+
+    this.setState({ mode: 'hover' });
+  }
+
+  handleMouseOut = () => {
+    const { mode } = this.state;
+    if (mode === 'active' || mode === 'focus') { return; }
+
+    this.setState({ mode: 'resting' });
+  }
+
+  handleFocus = () => {
+    const { mode } = this.state;
+    if (mode === 'active') { return; }
+    this.setState({ mode: 'focus' });
+  }
+
+  handleBlur = () => {
+    const { mode } = this.state;
+    if (mode === 'active') { return; }
+    this.setState({ mode: 'resting' });
+  }
+
   handleChange = ({ target: { value: query } }) => {
     const currentState = { query, mode: 'active' };
 
@@ -87,6 +124,7 @@ export default class SearchInput extends Component {
       onQueryChange: _onQueryChange,
       onDebouncedQueryChange: _onDebouncedQueryChange,
       debounceWait: _debounceWait,
+      iconStates,
       ...rest
     } = this.props;
 
@@ -96,14 +134,18 @@ export default class SearchInput extends Component {
     const innerProps = omit(rest, ...OUTER_PROPS_KEYS);
 
     return (
-      <Box position="relative" {...outerProps}>
+      <Box
+        position="relative"
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        {...outerProps}
+      >
         <Icon onClick={this.handleReset}>
           <Icons
             color="gray.medium"
-            name={{
-              resting: 'MagnifyingGlass',
-              active: 'X',
-            }[mode]}
+            name={iconStates[mode]}
           />
         </Icon>
 
@@ -114,6 +156,8 @@ export default class SearchInput extends Component {
           innerRef={(input) => { this.input = input; }}
           onChange={this.handleChange}
           defaultValue={query}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
         />
       </Box>
     );
