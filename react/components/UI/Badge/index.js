@@ -62,3 +62,4 @@ export default class Badge extends Component {
     );
   }
 }
+
