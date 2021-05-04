@@ -21,7 +21,7 @@ const Table = styled.table`
   margin-bottom: ${x => x.theme.space[7]};
 `
 
-export const TD = styled.td`
+const TD = styled.td`
   color: ${x => x.theme.colors.gray.bold};
   border: 1px solid ${x => x.theme.colors.gray.light};
   border-right: none;
