@@ -6,35 +6,6 @@
 // GraphQL query operation: ChannelTableContentsSet
 // ====================================================
 
-export interface ChannelTableContentsSet_channel_blokks_Channel_user {
-  __typename: "User";
-  name: string | null;
-}
-
-export interface ChannelTableContentsSet_channel_blokks_Channel_connection_user {
-  __typename: "User";
-  name: string | null;
-}
-
-export interface ChannelTableContentsSet_channel_blokks_Channel_connection {
-  __typename: "Connection";
-  position: number | null;
-  created_at: string | null;
-  user: ChannelTableContentsSet_channel_blokks_Channel_connection_user | null;
-}
-
-export interface ChannelTableContentsSet_channel_blokks_Channel {
-  __typename: "Channel";
-  created_at: string | null;
-  updated_at: string | null;
-  title: string | null;
-  user: ChannelTableContentsSet_channel_blokks_Channel_user | null;
-  /**
-   * Returns the outer channel if we are inside of one
-   */
-  connection: ChannelTableContentsSet_channel_blokks_Channel_connection | null;
-}
-
 export interface ChannelTableContentsSet_channel_blokks_Text_counts {
   __typename: "BlockCounts";
   public_channels: number | null;
